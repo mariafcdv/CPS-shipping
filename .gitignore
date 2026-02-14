@@ -1,0 +1,16 @@
+.DS_Store
+
+.idea/
+*.iml
+out/
+
+**/target/
+**/*.log
+
+**/node_modules/
+**/dist/
+**/.angular/
+**/.cache/
+
+.env
+**/application-local.properties
