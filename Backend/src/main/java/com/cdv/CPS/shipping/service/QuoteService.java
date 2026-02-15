@@ -52,9 +52,9 @@ public class QuoteService {
         BigDecimal length = req.getLength();
 
 
-        BigDecimal baseC = weight.multiply(rate);
+        BigDecimal baseCost = weight.multiply(rate);
 
-        BigDecimal volumeC = VOLUME_FACTOR
+        BigDecimal volumeCost = VOLUME_FACTOR
                 .multiply(height)
                 .multiply(length)
                 .multiply(width);
@@ -62,19 +62,19 @@ public class QuoteService {
         BigDecimal discountFactor = new BigDecimal(discountPercent)
                 .divide(PERCENT, 6, RoundingMode.HALF_UP);
 
-        BigDecimal discountA = discountFactor
+        BigDecimal discountAmount = discountFactor
                 .multiply(HALF)
                 .multiply(weight);
 
         // (peso*tarifa) + (1.66*alto*largo*ancho) - (descuentoFactor*0.5*peso)
-        BigDecimal total = baseC.add(volumeC).subtract(discountA);
+        BigDecimal total = baseCost.add(volumeCost).subtract(discountAmount);
 
-        baseC = baseC.setScale(2, RoundingMode.HALF_UP);
-        volumeC = volumeC.setScale(2, RoundingMode.HALF_UP);
-        discountA = discountA.setScale(4, RoundingMode.HALF_UP);
+        baseCost = baseCost.setScale(2, RoundingMode.HALF_UP);
+        volumeCost = volumeCost.setScale(2, RoundingMode.HALF_UP);
+        discountAmount = discountAmount.setScale(4, RoundingMode.HALF_UP);
         total = total.setScale(2, RoundingMode.HALF_UP);
 
-        return new QuoteResponse(rate, discountPercent, baseC, volumeC, discountA, total);
+        return new QuoteResponse(rate, discountPercent, baseCost, volumeCost, discountAmount, total);
     }
 
     private void validate(QuoteRequest req) {

@@ -1,0 +1,6 @@
+.page { max-width: 720px; margin: 24px auto; font-family: system-ui; }
+.grid { display: grid; gap: 12px; }
+.dims { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+button { padding: 10px 14px; width: fit-content; }
+.box { padding: 12px; border: 1px solid #ccc; }
+.error { border-color: rgb(227, 126, 165); }

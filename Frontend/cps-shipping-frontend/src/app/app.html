@@ -1,0 +1,56 @@
+<div class="page">
+  <h1>CPS Shipping - Quote</h1>
+
+  <div class="grid">
+    <label>
+      Región destino
+      <select [(ngModel)]="selectedRegionId" (change)="onRegionChange()">
+        <option [ngValue]="null">-- Selecciona --</option>
+        <option *ngFor="let r of regions" [ngValue]="r.regionId">{{ r.name }}</option>
+      </select>
+    </label>
+
+    <label>
+      País destino
+      <select [(ngModel)]="selectedCountryId" [disabled]="countries.length === 0">
+        <option [ngValue]="null">-- Selecciona --</option>
+        <option *ngFor="let c of countries" [ngValue]="c.countryId">
+          {{ c.name }} (Rate: {{ c.rate }})
+        </option>
+      </select>
+    </label>
+
+    <label>
+      Tipo de cliente
+      <select [(ngModel)]="selectedClientTypeId">
+        <option [ngValue]="null">Visitante (0%)</option>
+        <option *ngFor="let ct of clientTypes" [ngValue]="ct.clientTypeId">
+          {{ ct.name }} ({{ ct.discount }}%)
+        </option>
+      </select>
+    </label>
+
+    <div class="dims">
+      <label>Peso <input type="number" [(ngModel)]="weight" /></label>
+      <label>Ancho <input type="number" [(ngModel)]="width" /></label>
+      <label>Alto <input type="number" [(ngModel)]="height" /></label>
+      <label>Largo <input type="number" [(ngModel)]="length" /></label>
+    </div>
+
+    <button (click)="quote()">Cotizar</button>
+
+    <div *ngIf="errorMsg" class="box error">
+      <b>Error:</b> {{ errorMsg }}
+    </div>
+
+    <div *ngIf="result" class="box">
+      <h3>Resultado</h3>
+      <p><b>Rate:</b> {{ result.rate }}</p>
+      <p><b>Descuento:</b> {{ result.discountPercent }}%</p>
+      <p><b>Base:</b> {{ result.baseC }}</p>
+      <p><b>Volumen:</b> {{ result.volumeC }}</p>
+      <p><b>Descuento aplicado:</b> {{ result.discountA }}</p>
+      <p><b>Total:</b> {{ result.total }}</p>
+    </div>
+  </div>
+</div>
