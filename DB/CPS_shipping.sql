@@ -48,6 +48,7 @@ INSERT INTO dbo.Region (Name) VALUES
 
 INSERT INTO dbo.Country (Name, Rate, Region_ID) VALUES
 ('Miami', 5.2, 1), 
+('Mexico', 5.6, 1),
 ('Guatemala', 2.5, 2), 
 ('Japan', 8.35, 3), 
 ('Kenya', 6, 4), 

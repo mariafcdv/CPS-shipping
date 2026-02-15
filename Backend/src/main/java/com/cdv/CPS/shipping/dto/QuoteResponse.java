@@ -26,7 +26,7 @@ public class QuoteResponse {
         return discountPercent;
     }
 
-    public BigDecimal getBaseC() {
+    public BigDecimal getBaseCost() {
         return baseCost;
     }
 
@@ -34,7 +34,7 @@ public class QuoteResponse {
         return volumeCost;
     }
 
-    public BigDecimal getDiscountA() {
+    public BigDecimal getDiscountAmount() {
         return discountAmount;
     }
 

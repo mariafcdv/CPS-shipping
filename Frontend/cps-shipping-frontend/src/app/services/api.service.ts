@@ -34,15 +34,17 @@ export interface QuoteRequest {
 export interface QuoteResponse {
   rate: number;
   discountPercent: number;
-  baseCost: number;
-  volumeCost: number;
-  discountAmount: number;
+
+  baseCost?: number;
+  volumeCost?: number;
+  discountAmount?: number;
+
   total: number;
 }
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private baseUrl = 'http://localhost:8080/api';
+  private baseUrl = 'http://127.0.0.1:8080/api';
 
   constructor(private http: HttpClient) {}
 

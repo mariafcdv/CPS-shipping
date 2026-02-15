@@ -1,5 +1,4 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -19,6 +18,8 @@ import {
   styleUrl: './app.css'
 })
 export class App implements OnInit {
+  statusMsg = '';
+  loading = false;
   regions: Region[] = [];
   countries: Country[] = [];
   clientTypes: ClientType[] = [];
@@ -35,7 +36,7 @@ export class App implements OnInit {
   result: QuoteResponse | null = null;
   errorMsg: string | null = null;
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.api.getRegions().subscribe(r => (this.regions = r));
@@ -54,28 +55,43 @@ export class App implements OnInit {
   }
 
   quote(): void {
-    this.result = null;
-    this.errorMsg = null;
+  this.loading = true;
+  this.result = null;
+  this.errorMsg = null;
 
-    if (!this.selectedCountryId || !this.weight || !this.width || !this.height || !this.length) {
-      this.errorMsg = "Completa el país destino y todas las medidas.";
-      return;
-    }
+  if (
+    this.selectedCountryId == null ||
+    this.weight == null ||
+    this.width == null ||
+    this.height == null ||
+    this.length == null
+  ) {
+    this.loading = false;
+    this.errorMsg = 'Completa el país destino y todas las medidas.';
+    return;
+  }
 
-    this.api
-      .quote({
-        destinationCountryId: this.selectedCountryId,
-        clientTypeId: this.selectedClientTypeId,
-        weight: this.weight,
-        width: this.width,
-        height: this.height,
-        length: this.length
-      })
-      .subscribe({
-        next: res => (this.result = res),
-        error: err => {
-          this.errorMsg = err?.error?.error ?? "Ocurrió un error al cotizar.";
-        }
-      });
+  this.api
+    .quote({
+      destinationCountryId: this.selectedCountryId,
+      clientTypeId: this.selectedClientTypeId,
+      weight: this.weight,
+      width: this.width,
+      height: this.height,
+      length: this.length
+    })
+    .subscribe({
+      next: (res) => {
+        console.log('¡Respuesta recibida!', res);
+        this.result = res;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.errorMsg = err?.error?.error ?? 'Ocurrió un error al cotizar.';
+        this.loading = false;
+        this.cdr.detectChanges(); 
+      }
+    });
   }
 }
